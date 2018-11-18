@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cachet-postgres
+  labels:
+    app: cachet-postgres
+spec:
+  selector:
+    matchLabels:
+      app: cachet-postgres
+  template:
+    metadata:
+      labels:
+        app: cachet-postgres
+    spec:
+      containers:
+        - name: cachet
+          image: <cacher-image-from-gcp-registry>
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_DRIVER
+              value: pgsql
+            - name: DB_HOST
+              value: 127.0.0.1
+            - name: DB_PORT
+              value: 5432
+            - name: DB_DATABASE
+              value: postgres
+            - name: DB_USERNAME
+              value: postgres
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_PREFIX
+              value: chq_
+            - name: APP_KEY
+              value: ${APP_KEY:-null}
+            - name: APP_LOG
+              value: errorlog
+            - name: DEBUG
+              value: false
+
+        - name: postgres
+          image: postgres:9.5
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-cachet
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: cachet-postgres
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cachet-ingress
+spec:
+  backend:
+    serviceName: svc-cachet
+    servicePort: 80
