@@ -17,7 +17,7 @@ spec:
         - name: cachet
           image: <cacher-image-from-gcp-registry>
           ports:
-            - containerPort: 80
+            - containerPort: 8000
           env:
             - name: DB_DRIVER
               value: pgsql
