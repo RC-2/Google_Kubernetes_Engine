@@ -20,32 +20,32 @@ spec:
             - containerPort: 8000
           env:
             - name: DB_DRIVER
-              value: pgsql
+              value: "pgsql"
             - name: DB_HOST
-              value: 127.0.0.1
+              value: "127.0.0.1"
             - name: DB_PORT
-              value: 5432
+              value: "5432"
             - name: DB_DATABASE
-              value: postgres
+              value: "postgres"
             - name: DB_USERNAME
-              value: postgres
+              value: "postgres"
             - name: DB_PASSWORD
-              value: postgres
+              value: "postgres"
             - name: DB_PREFIX
-              value: chq_
+              value: "chq_"
             - name: APP_KEY
-              value: ${APP_KEY:-null}
+              value: "${APP_KEY:-null}"
             - name: APP_LOG
-              value: errorlog
+              value: "errorlog"
             - name: DEBUG
-              value: false
+              value: "false"
         - name: postgres
           image: postgres:9.5
           env:
             - name: POSTGRES_USER
-              value: postgres
+              value: "postgres"
             - name: POSTGRES_PASSWORD
-              value: postgres
+              value: "postgres"
 ---
 apiVersion: v1
 kind: Service
