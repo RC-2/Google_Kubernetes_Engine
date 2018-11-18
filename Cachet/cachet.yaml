@@ -39,7 +39,6 @@ spec:
               value: errorlog
             - name: DEBUG
               value: false
-
         - name: postgres
           image: postgres:9.5
           env:
